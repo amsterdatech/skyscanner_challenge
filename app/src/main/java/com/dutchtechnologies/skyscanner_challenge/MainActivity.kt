@@ -16,6 +16,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(activity_itineraries_toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         activity_itineraries_recycler_view.layoutManager = LinearLayoutManager(
             this,
             RecyclerView.VERTICAL,
@@ -31,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         Handler().postDelayed({
             activity_itineraries_custom_view_loading.visibility = View.GONE
             activity_itineraries_recycler_view.visibility = View.VISIBLE
+            activity_itineraries_results_filters_bar.visibility = View.VISIBLE
 
             adapter.items = getItineraries()
 

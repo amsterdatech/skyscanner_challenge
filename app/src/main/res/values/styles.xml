@@ -33,4 +33,12 @@
 
     </style>
 
+    <!-- Base Toolbar -->
+    <style name="Base.Toolbar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="titleTextColor">@android:color/white</item>
+        <!--<item name="titleTextAppearance">@style/Base.Toolbar.TextAppearance</item>-->
+        <!--<item name="android:textSize">@dimen/text_size_twenty</item>-->
+    </style>
+
 </resources>

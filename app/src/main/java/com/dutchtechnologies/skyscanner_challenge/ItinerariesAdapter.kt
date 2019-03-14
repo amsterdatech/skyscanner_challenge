@@ -52,12 +52,17 @@ class ItinerariesAdapter : RecyclerView.Adapter<ItinerariesAdapter.ViewHolder>()
 
         private val textSecondSize = containerView.context.resources.getDimensionPixelSize(R.dimen.secondaryTextSize)
 
+        private val marginSize = containerView.context.resources.getDimension(R.dimen.spacings_eight).toInt()
+
         private val legsAdapter = LegsAdapter()
 
         init {
             itineraryLegs.layoutManager = layoutManager
             itineraryLegs.setHasFixedSize(true)
             itineraryLegs.isNestedScrollingEnabled = false
+            itineraryLegs.addItemDecoration(
+                MarginItemDecoration(marginSize)
+            )
             itineraryLegs.adapter = legsAdapter
         }
 

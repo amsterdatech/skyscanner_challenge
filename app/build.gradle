@@ -1,0 +1,55 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply from: rootProject.projectDir.absolutePath + "/dependencies.gradle"
+
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.dutchtechnologies.skyscanner_challenge"
+        minSdkVersion minVersion
+        targetSdkVersion maxVersion
+        versionCode codeVersion
+        versionName nameVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation kotlin
+    implementation 'androidx.core:core-ktx:1.1.0-alpha05'
+
+    implementation design
+    implementation appCompat
+    implementation constraintLayout
+    implementation coordinatorLayout
+    implementation recycleView
+    implementation cardView
+    implementation support
+    implementation glide
+
+    implementation retrofit
+    implementation retrofitConverter
+    implementation retrofitAdapter
+    implementation okHttp
+    implementation okHttpLogger
+    implementation  gson
+    implementation rxKotlin
+    implementation rxAndroid
+
+    testImplementation jUnit
+    testImplementation mockito
+
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+}

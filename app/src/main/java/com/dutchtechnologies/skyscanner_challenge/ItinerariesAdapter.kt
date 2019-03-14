@@ -1,22 +1,18 @@
 package com.dutchtechnologies.skyscanner_challenge
 
 import android.annotation.SuppressLint
-import android.graphics.Typeface
-import android.text.Layout
-import android.text.SpannableString
-import android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE
 import android.text.TextUtils
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.AlignmentSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import getColorRes
+import getDimens
+import getDimensPixelSize
 import kotlinx.android.synthetic.main.view_holder_itinerary.view.*
+import primaryTextBold
+import secondaryText
 import kotlin.properties.Delegates
 
 
@@ -42,17 +38,13 @@ class ItinerariesAdapter : RecyclerView.Adapter<ItinerariesAdapter.ViewHolder>()
 
         private val layoutManager = LinearLayoutManager(containerView.context, RecyclerView.VERTICAL, false)
 
-        private val textColorPrimary =
-            ResourcesCompat.getColor(containerView.context.resources, R.color.textPrimaryColor, null)
+        private val colorPrimary = containerView.context.getColorRes(R.color.textPrimaryColor)
+        private val sizePrimary = containerView.context.getDimensPixelSize(R.dimen.primaryTextSize)
 
-        private val textPrimarySize = containerView.context.resources.getDimensionPixelSize(R.dimen.primaryTextSize)
+        private val colorSecondary = containerView.context.getColorRes(R.color.textSecondaryColor)
+        private val sizeSecondary = containerView.context.getDimensPixelSize(R.dimen.secondaryTextSize)
 
-        private val textColorSecondary =
-            ResourcesCompat.getColor(containerView.context.resources, R.color.textSecondaryColor, null)
-
-        private val textSecondSize = containerView.context.resources.getDimensionPixelSize(R.dimen.secondaryTextSize)
-
-        private val marginSize = containerView.context.resources.getDimension(R.dimen.spacings_eight).toInt()
+        private val marginSize = containerView.context.getDimens(R.dimen.spacings_eight).toInt()
 
         private val legsAdapter = LegsAdapter()
 
@@ -72,32 +64,22 @@ class ItinerariesAdapter : RecyclerView.Adapter<ItinerariesAdapter.ViewHolder>()
             with(itinerary) {
                 itineraryPriceWithCarrier?.text = TextUtils
                     .concat(
-                        spannablePrimaryTextBold(this.price),
+                        this.price
+                            .primaryTextBold(
+                                sizePrimary, colorPrimary, true
+                            ),
                         "\n",
-                        spannableSecondaryText("via ${this.agent}")
+                        "via ${this.agent}".secondaryText(
+                            sizeSecondary,
+                            colorSecondary
+                        )
                     )
 
-                itineraryRating?.text = spannablePrimaryTextBold(this.rating)
-                itinerary.legs.let {
-                    legsAdapter.items = it
-                }
+                itineraryRating?.text = this.rating.primaryTextBold(
+                    sizePrimary, colorPrimary
+                )
+                legsAdapter.items = this.legs
             }
-        }
-
-        private fun spannablePrimaryTextBold(text: String): SpannableString {
-            val span1 = SpannableString(text)
-            span1.setSpan(AbsoluteSizeSpan(textPrimarySize), 0, text.length, SPAN_INCLUSIVE_INCLUSIVE)
-            span1.setSpan(ForegroundColorSpan(textColorPrimary), 0, text.length, 0)
-            span1.setSpan(StyleSpan(Typeface.BOLD), 0, text.length, 0)// set color
-            span1.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_OPPOSITE), 0, text.length, 0)
-            return span1
-        }
-
-        private fun spannableSecondaryText(text: String): SpannableString {
-            val span2 = SpannableString(text)
-            span2.setSpan(AbsoluteSizeSpan(textSecondSize), 0, text.length, SPAN_INCLUSIVE_INCLUSIVE)
-            span2.setSpan(ForegroundColorSpan(textColorSecondary), 0, text.length, 0)// set color
-            return span2
         }
     }
 }

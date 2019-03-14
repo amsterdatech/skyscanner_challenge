@@ -1,36 +1,30 @@
 package com.dutchtechnologies.skyscanner_challenge
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.text.TextUtils
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import getColorRes
+import getDimens
+import getDimensPixelSize
 import kotlinx.android.synthetic.main.activity_main.*
+import primaryTextBold
+import secondaryText
 
 class MainActivity : AppCompatActivity() {
 
     private val adapter = ItinerariesAdapter()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setSupportActionBar(activity_itineraries_toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        activity_itineraries_recycler_view.layoutManager = LinearLayoutManager(
-            this,
-            RecyclerView.VERTICAL,
-            false
-        )
-
-        activity_itineraries_recycler_view.addItemDecoration(
-            MarginItemDecoration(resources.getDimension(R.dimen.spacings_eight).toInt())
-        )
-        activity_itineraries_recycler_view.adapter = adapter
-
+        setupToolbar()
+        setupRecyclerView()
 
         Handler().postDelayed({
             activity_itineraries_custom_view_loading.visibility = View.GONE
@@ -40,6 +34,39 @@ class MainActivity : AppCompatActivity() {
             adapter.items = getItineraries()
 
         }, 1000)
+    }
+
+    private fun setupRecyclerView() {
+        activity_itineraries_recycler_view.layoutManager = LinearLayoutManager(
+            this,
+            RecyclerView.VERTICAL,
+            false
+        )
+        activity_itineraries_recycler_view.addItemDecoration(
+            MarginItemDecoration(getDimens(R.dimen.spacings_eight).toInt())
+        )
+        activity_itineraries_recycler_view.adapter = adapter
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(activity_itineraries_toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val titleToolbar = "BUD - London"
+        val subtitleToolbar = "12 Nov - 16 Nov, 1 adult, economy"
+
+        activity_itineraries_text_view_query_info.text =
+            TextUtils.concat(
+                titleToolbar.primaryTextBold(
+                    getDimensPixelSize(R.dimen.toolbarPrimaryTextSize),
+                    getColorRes(android.R.color.white)
+                ), "\n",
+                subtitleToolbar.secondaryText(
+                    getDimensPixelSize(R.dimen.secondaryTextSize),
+                    getColorRes(R.color.subtitleSecondaryColor)
+                )
+            )
     }
 
     fun getLegs(): List<Leg> {

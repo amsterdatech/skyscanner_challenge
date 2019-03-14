@@ -44,11 +44,14 @@ class ItinerariesAdapter : RecyclerView.Adapter<ItinerariesAdapter.ViewHolder>()
 
         private val textColorPrimary =
             ResourcesCompat.getColor(containerView.context.resources, R.color.textPrimaryColor, null)
+
+        private val textPrimarySize = containerView.context.resources.getDimensionPixelSize(R.dimen.primaryTextSize)
+
         private val textColorSecondary =
             ResourcesCompat.getColor(containerView.context.resources, R.color.textSecondaryColor, null)
 
-        private val textPrimarySize = containerView.context.resources.getDimensionPixelSize(R.dimen.primaryTextSize)
         private val textSecondSize = containerView.context.resources.getDimensionPixelSize(R.dimen.secondaryTextSize)
+
         private val legsAdapter = LegsAdapter()
 
         init {
@@ -62,29 +65,34 @@ class ItinerariesAdapter : RecyclerView.Adapter<ItinerariesAdapter.ViewHolder>()
         @SuppressLint("SetTextI18n")
         fun bind(itinerary: Itinerary) {
             with(itinerary) {
-                val price = "${this.price}"
-                val span1 = SpannableString(price)
-//                ss1.setSpan(RelativeSizeSpan(0.3f), 3, this.agent.length - 1, 0) // set size
-                span1.setSpan(AbsoluteSizeSpan(textPrimarySize), 0, price.length, SPAN_INCLUSIVE_INCLUSIVE)
-                span1.setSpan(ForegroundColorSpan(textColorPrimary), 0, price.length, 0)
-                span1.setSpan(StyleSpan(Typeface.BOLD), 0, price.length, 0)// set color
-                span1.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_OPPOSITE), 0, price.length, 0)
+                itineraryPriceWithCarrier?.text = TextUtils
+                    .concat(
+                        spannablePrimaryTextBold(this.price),
+                        "\n",
+                        spannableSecondaryText("via ${this.agent}")
+                    )
 
-
-                val agentName = "via ${this.agent}"
-                val span2 = SpannableString(agentName)
-                span2.setSpan(AbsoluteSizeSpan(textSecondSize), 0, agentName.length, SPAN_INCLUSIVE_INCLUSIVE)
-                span2.setSpan(ForegroundColorSpan(textColorSecondary), 0, agentName.length, 0)// set color
-
-                val result = TextUtils.concat(span1, "\n", span2)
-
-                itineraryPriceWithCarrier?.text = result
-                itineraryRating?.text = this.rating
-
+                itineraryRating?.text = spannablePrimaryTextBold(this.rating)
                 itinerary.legs.let {
                     legsAdapter.items = it
                 }
             }
+        }
+
+        private fun spannablePrimaryTextBold(text: String): SpannableString {
+            val span1 = SpannableString(text)
+            span1.setSpan(AbsoluteSizeSpan(textPrimarySize), 0, text.length, SPAN_INCLUSIVE_INCLUSIVE)
+            span1.setSpan(ForegroundColorSpan(textColorPrimary), 0, text.length, 0)
+            span1.setSpan(StyleSpan(Typeface.BOLD), 0, text.length, 0)// set color
+            span1.setSpan(AlignmentSpan.Standard(Layout.Alignment.ALIGN_OPPOSITE), 0, text.length, 0)
+            return span1
+        }
+
+        private fun spannableSecondaryText(text: String): SpannableString {
+            val span2 = SpannableString(text)
+            span2.setSpan(AbsoluteSizeSpan(textSecondSize), 0, text.length, SPAN_INCLUSIVE_INCLUSIVE)
+            span2.setSpan(ForegroundColorSpan(textColorSecondary), 0, text.length, 0)// set color
+            return span2
         }
     }
 }

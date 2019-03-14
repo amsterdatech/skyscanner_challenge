@@ -12,7 +12,6 @@ class MainActivity : AppCompatActivity() {
 
     private val adapter = ItinerariesAdapter()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,7 +22,9 @@ class MainActivity : AppCompatActivity() {
             false
         )
 
-        activity_itineraries_recycler_view.addItemDecoration(MarginItemDecoration(resources.getDimension(R.dimen.spacings_eight).toInt()))
+        activity_itineraries_recycler_view.addItemDecoration(
+            MarginItemDecoration(resources.getDimension(R.dimen.spacings_eight).toInt())
+        )
         activity_itineraries_recycler_view.adapter = adapter
 
 

@@ -3,8 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/activity_itinerary_detail_content_root"
-        android:fitsSystemWindows="true"
+        android:id="@+id/activity_itineraries_content_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
@@ -12,15 +11,18 @@
     <androidx.core.widget.ContentLoadingProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyle"
+            android:id="@+id/activity_itineraries_custom_view_loading"
             android:layout_gravity="center"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activity_itineraries_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
             tools:listitem="@layout/view_holder_itinerary"
-            tools:visibility="visible"/>
+            tools:visibility="gone"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

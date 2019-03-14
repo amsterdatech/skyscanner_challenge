@@ -2,4 +2,7 @@
 <resources>
     <dimen name="spacings_sixteen">16dp</dimen>
     <dimen name="spacings_eight">8dp</dimen>
+    <dimen name="primaryTextSize">16sp</dimen>
+    <dimen name="secondaryTextSize">12sp</dimen>
+
 </resources>

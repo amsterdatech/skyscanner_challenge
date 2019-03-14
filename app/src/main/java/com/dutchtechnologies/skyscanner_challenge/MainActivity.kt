@@ -3,6 +3,7 @@ package com.dutchtechnologies.skyscanner_challenge
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.view.Menu
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +35,11 @@ class MainActivity : AppCompatActivity() {
             adapter.items = getItineraries()
 
         }, 1000)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_home, menu)
+        return true
     }
 
     private fun setupRecyclerView() {

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Skyscanner-challenge</string>
+    <string name="search">Search</string>
+    <string name="action_settings">Settings</string>
 </resources>

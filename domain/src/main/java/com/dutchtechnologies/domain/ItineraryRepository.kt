@@ -1,5 +1,6 @@
 package com.dutchtechnologies.domain
 
+import com.dutchtechnologies.domain.interactor.SearchRequest
 import io.reactivex.Single
 
 /**
@@ -9,5 +10,5 @@ import io.reactivex.Single
  */
 
 interface ItineraryRepository {
-    fun getItineraries(): Single<List<Itinerary>>
+    fun getItineraries(request:SearchRequest?): Single<List<Itinerary>>
 }

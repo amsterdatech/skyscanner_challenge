@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
 
 apply from: rootProject.projectDir.absolutePath + "/dependencies.gradle"
 
@@ -37,6 +39,15 @@ dependencies {
     implementation cardView
     implementation support
     implementation glide
+
+    implementation dagger
+    implementation daggerSupport
+
+    kapt daggerCompiler
+    kapt daggerProcessor
+
+    javaxAnnotation
+    javaxInject
 
     implementation retrofit
     implementation retrofitConverter

@@ -15,6 +15,9 @@ ext {
     rxAndroidVersion = "2.0.1"
     okHttpVersion = '3.8.1'
     gsonVersion = '2.8.1'
+    daggerVersion = '2.16'
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
 
     jUnitVersion = '4.12'
     mockitoKotlinVersion = '1.5.0'
@@ -40,8 +43,14 @@ ext {
     rxKotlin = "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}"
     rxAndroid = "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
 
+    javaxAnnotation = "javax.annotation:jsr250-api:${javaxAnnotationVersion}"
+    javaxInject = "javax.inject:javax.inject:${javaxInjectVersion}"
+    daggerProcessor = "com.google.dagger:dagger-compiler:${daggerVersion}"
+    daggerCompiler = "com.google.dagger:dagger-android-processor:${daggerVersion}"
+    dagger = "com.google.dagger:dagger:${daggerVersion}"
+    daggerSupport = "com.google.dagger:dagger-android-support:${daggerVersion}"
+
     jUnit = "junit:junit:${jUnitVersion}"
     mockito = "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"
-
 
 }

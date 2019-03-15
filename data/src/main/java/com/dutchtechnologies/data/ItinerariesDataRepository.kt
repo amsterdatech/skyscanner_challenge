@@ -1,9 +1,11 @@
 package com.dutchtechnologies.data
 
 import com.dutchtechnologies.data.mapper.ItineraryMapper
+import com.dutchtechnologies.data.mapper.SearchFormMapper
 import com.dutchtechnologies.data.source.ItineraryDataStoreFactory
 import com.dutchtechnologies.domain.Itinerary
 import com.dutchtechnologies.domain.ItineraryRepository
+import com.dutchtechnologies.domain.interactor.SearchRequest
 import io.reactivex.Single
 
 /**
@@ -12,15 +14,20 @@ import io.reactivex.Single
  */
 class ItinerariesDataRepository constructor(
     private val factory: ItineraryDataStoreFactory,
-    private val mapper: ItineraryMapper
+    private val mapper: ItineraryMapper,
+    private val searchMapper: SearchFormMapper
 ) :
     ItineraryRepository {
 
 
-    override fun getItineraries(): Single<List<Itinerary>> {
+    override fun getItineraries(search: SearchRequest?): Single<List<Itinerary>> {
         val dataStore = factory.retrieveDataStore()
         return dataStore
-            .getItineraries().map { list ->
+            .getItineraries(
+                searchMapper
+                    .mapToEntity(search ?: SearchRequest())
+            )
+            .map { list ->
                 list.map {
                     mapper.mapFromEntity(it)
                 }

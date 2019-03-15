@@ -4,9 +4,13 @@ apply from: rootProject.projectDir.absolutePath + "/dependencies.gradle"
 
 dependencies {
     dependencies {
+
         implementation kotlin
         implementation rxKotlin
         implementation rxAndroid
+        
+        implementation javaxAnnotation
+        implementation javaxInject
 
         testImplementation jUnit
         testImplementation mockito

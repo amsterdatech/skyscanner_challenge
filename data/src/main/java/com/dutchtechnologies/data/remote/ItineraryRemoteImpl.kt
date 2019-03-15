@@ -10,13 +10,26 @@ class ItineraryRemoteImpl constructor(
 ) :
     ItineraryRemote {
 
-    /**
-     * Retrieve a list of [BufferooEntity] instances from the [BufferooService].
-     */
-    override fun getItineraries(): Single<List<ItineraryEntity>> {
-        return service.getLivePrices(" ", "")
+    override fun getItineraries(priceSearchForm: PriceSearchForm): Single<List<ItineraryEntity>> {
+        return service
+            .createSession(priceSearchForm)
             .map {
-                entityMapper.mapFromRemote(it.livePrices)
+                return@map it.headers()["Location"] ?: ""
             }
+            .flatMap { sessionId ->
+                if (sessionId.isEmpty()) {
+                    return@flatMap Single.defer {
+                        Single.just(mutableListOf<ItineraryEntity>())
+                    }
+                }
+
+                return@flatMap service
+                    .getLivePrices(sessionId, "")
+                    .map {
+                        entityMapper.mapFromRemote(it.livePrices)
+                    }
+            }
+
+
     }
 }

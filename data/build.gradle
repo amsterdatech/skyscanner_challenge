@@ -9,6 +9,9 @@ dependencies {
     implementation rxKotlin
     implementation rxAndroid
 
+    implementation javaxAnnotation
+    implementation javaxInject
+
     implementation retrofit
     implementation retrofitConverter
     implementation retrofitAdapter

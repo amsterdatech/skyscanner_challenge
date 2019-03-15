@@ -17,6 +17,7 @@ abstract class SingleUseCase<T, in Params>(private val subscribeScheduler: Sched
         val observable: Single<T> = this.buildUseCaseSingle(params)
             .subscribeOn(subscribeScheduler)
             .observeOn(postExecutionScheduler)
+
         (observable.subscribeWith(observer) as? Disposable)?.let {
             disposables.add(it)
         }

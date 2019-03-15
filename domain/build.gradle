@@ -1,0 +1,23 @@
+apply plugin: 'kotlin'
+apply from: rootProject.projectDir.absolutePath + "/dependencies.gradle"
+
+
+dependencies {
+    dependencies {
+        implementation kotlin
+        implementation rxKotlin
+        implementation rxAndroid
+
+        testImplementation jUnit
+        testImplementation mockito
+    }
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+configurations.all {
+    resolutionStrategy {
+        force "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+}

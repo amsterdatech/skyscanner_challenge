@@ -1,0 +1,25 @@
+apply plugin: 'kotlin'
+apply from: rootProject.projectDir.absolutePath + "/dependencies.gradle"
+
+
+dependencies {
+    compile project(':domain')
+
+    implementation kotlin
+    implementation rxKotlin
+    implementation rxAndroid
+
+    implementation retrofit
+    implementation retrofitConverter
+    implementation retrofitAdapter
+    implementation okHttp
+    implementation okHttpLogger
+    implementation  gson
+
+    testImplementation jUnit
+    testImplementation mockito
+
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"

@@ -1,11 +1,9 @@
 package com.dutchtechnologies.data.source
 
-import com.dutchtechnologies.data.repository.ItineraryCache
 import com.dutchtechnologies.data.repository.ItineraryDataStore
+import javax.inject.Inject
 
-open class ItineraryDataStoreFactory  constructor(
-    private val itineraryCache: ItineraryCache,
-    private val itineraryCacheDataStore: ItineraryCacheDataStore,
+open class ItineraryDataStoreFactory @Inject constructor(
     private val itineraryRemoteDataStore: ItineraryRemoteDataStore
 ) {
 
@@ -14,17 +12,10 @@ open class ItineraryDataStoreFactory  constructor(
      * has not expired
      */
     open fun retrieveDataStore(): ItineraryDataStore {
-        if (itineraryCache.isCached() && !itineraryCache.isExpired()) {
-            return retrieveCacheDataStore()
-        }
+//        if (itineraryCache.isCached() && !itineraryCache.isExpired()) {
+//            return retrieveCacheDataStore()
+//        }
         return retrieveRemoteDataStore()
-    }
-
-    /**
-     * Return an instance of the Remote Data Store
-     */
-    open fun retrieveCacheDataStore(): ItineraryDataStore {
-        return itineraryCacheDataStore
     }
 
     /**

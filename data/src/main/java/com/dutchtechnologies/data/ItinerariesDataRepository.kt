@@ -7,12 +7,13 @@ import com.dutchtechnologies.domain.Itinerary
 import com.dutchtechnologies.domain.ItineraryRepository
 import com.dutchtechnologies.domain.interactor.SearchRequest
 import io.reactivex.Single
+import javax.inject.Inject
 
 /**
  * Provides an implementation of the [ItineraryRepository] interface for communicating to and from
  * data sources
  */
-class ItinerariesDataRepository constructor(
+class ItinerariesDataRepository @Inject constructor(
     private val factory: ItineraryDataStoreFactory,
     private val mapper: ItineraryMapper,
     private val searchMapper: SearchFormMapper

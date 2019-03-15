@@ -5,21 +5,21 @@ import android.os.Handler
 import android.text.TextUtils
 import android.view.Menu
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dutchtechnologies.skyscanner_challenge.R
 import com.dutchtechnologies.skyscanner_challenge.model.Itinerary
 import com.dutchtechnologies.skyscanner_challenge.model.Leg
-import com.dutchtechnologies.skyscanner_challenge.utils.MarginItemDecoration
-import com.dutchtechnologies.skyscanner_challenge.R
-import com.dutchtechnologies.skyscanner_challenge.utils.getColorRes
-import com.dutchtechnologies.skyscanner_challenge.utils.getDimens
-import com.dutchtechnologies.skyscanner_challenge.utils.getDimensPixelSize
+import com.dutchtechnologies.skyscanner_challenge.utils.*
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import com.dutchtechnologies.skyscanner_challenge.utils.primaryTextBold
-import com.dutchtechnologies.skyscanner_challenge.utils.secondaryText
 
-class ItinerariesActivity : AppCompatActivity() {
+class ItinerariesActivity : DaggerAppCompatActivity() {
+
+    init {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+    }
 
     private val adapter = ItinerariesAdapter()
 

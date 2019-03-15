@@ -28,6 +28,9 @@ android {
 }
 
 dependencies {
+    implementation project(':domain')
+    implementation project(':data')
+
     implementation kotlin
     implementation 'androidx.core:core-ktx:1.1.0-alpha05'
 
@@ -45,6 +48,7 @@ dependencies {
 
     kapt daggerCompiler
     kapt daggerProcessor
+    kapt daggerSupport
 
     javaxAnnotation
     javaxInject

@@ -3,8 +3,9 @@ package com.dutchtechnologies.data.remote
 import com.dutchtechnologies.data.model.ItineraryEntity
 import com.dutchtechnologies.data.repository.ItineraryRemote
 import io.reactivex.Single
+import javax.inject.Inject
 
-class ItineraryRemoteImpl constructor(
+class ItineraryRemoteImpl @Inject constructor(
     private val service: SkyscannerService,
     private val entityMapper: ItineraryEntityMapper
 ) :
@@ -24,7 +25,7 @@ class ItineraryRemoteImpl constructor(
                 }
 
                 return@flatMap service
-                    .getLivePrices(sessionId, "")
+                    .getLivePrices(sessionId, priceSearchForm.apiKey)
                     .map {
                         entityMapper.mapFromRemote(it.livePrices)
                     }

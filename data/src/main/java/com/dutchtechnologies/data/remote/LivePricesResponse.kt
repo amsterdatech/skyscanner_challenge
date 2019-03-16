@@ -1,21 +1,19 @@
 package com.dutchtechnologies.data.remote
 
+import com.google.gson.annotations.Expose
 import java.util.*
 
-
-class ItineraryModel(
-    val Agents: List<Agent>,
-    val Carriers: List<Carrier>,
-    val Currencies: List<Currency>,
-    val Itineraries: List<Itinerary>,
-    val Legs: List<Leg>,
-    val Places: List<Place>,
-    val Query: Query,
-    val Segments: List<Segment>,
-    val ServiceQuery: ServiceQuery,
-    val SessionKey: String,
-    val Status: String
-)
+class LivePricesResponse (@Expose val Agents: List<Agent>,
+                          val Carriers: List<Carrier>,
+                          val Currencies: List<Currency>,
+                          val Itineraries: List<Itinerary>,
+                          val Legs: List<Leg>,
+                          val Places: List<Place>,
+                          val Query: Query,
+                          val Segments: List<Segment>,
+                          val ServiceQuery: ServiceQuery,
+                          val SessionKey: String,
+                          val Status: String)
 
 data class Carrier(
     val Code: String,

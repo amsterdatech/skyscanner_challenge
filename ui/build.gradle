@@ -3,9 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-
 apply from: rootProject.projectDir.absolutePath + "/dependencies.gradle"
-
 
 android {
     compileSdkVersion 28
@@ -18,6 +16,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
+
+        buildConfigField 'String', 'REST_SERVER', '"http://partners.api.skyscanner.net/apiservices/"'
+        buildConfigField 'String', 'API_KEY', '"ss630745725358065467897349852985"'
     }
     buildTypes {
         release {
@@ -45,6 +46,7 @@ dependencies {
 
     implementation dagger
     implementation daggerSupport
+    implementation daggerAndroid
 
     kapt daggerCompiler
     kapt daggerProcessor

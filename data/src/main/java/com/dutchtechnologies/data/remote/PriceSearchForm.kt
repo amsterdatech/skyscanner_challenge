@@ -1,14 +1,16 @@
 package com.dutchtechnologies.data.remote
 
+import com.google.gson.annotations.SerializedName
+
 data class PriceSearchForm(
-    val apiKey: String,
-    var cabinClass: String,
+    @SerializedName("apikey") val apiKey: String,
+    @SerializedName("cabinclass") var cabinClass: String,
     var country: String,
     var currency: String,
     var locale: String,
-    var locationSchema: String,
-    var originPlace: String,
-    var destinationPlace: String,
+    @SerializedName("locationSchema") var locationSchema: String,
+    @SerializedName("originplace") var originPlace: String,
+    @SerializedName("destinationplace") var destinationPlace: String,
     var outbounddate: String,
     var inbounddate: String,
     var adults: Int,

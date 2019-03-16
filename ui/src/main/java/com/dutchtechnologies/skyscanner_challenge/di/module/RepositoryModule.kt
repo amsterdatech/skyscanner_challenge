@@ -9,6 +9,7 @@ import com.dutchtechnologies.data.remote.SkyscannerService
 import com.dutchtechnologies.data.repository.ItineraryRemote
 import com.dutchtechnologies.data.source.ItineraryDataStoreFactory
 import com.dutchtechnologies.domain.ItineraryRepository
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -23,8 +24,10 @@ class RepositoryModule {
         searchMapper: SearchFormMapper
     ): ItineraryRepository = ItinerariesDataRepository(factory, mapper, searchMapper)
 
-    fun provideItineratesRemote(service: SkyscannerService, factory: ItineraryEntityMapper): ItineraryRemote {
-        return ItineraryRemoteImpl(service, factory)
+    @Provides
+    @Singleton
+    fun provideItineratesRemote(gson: Gson, service: SkyscannerService, factory: ItineraryEntityMapper): ItineraryRemoteImpl{
+        return ItineraryRemoteImpl(gson,service, factory)
     }
 
 

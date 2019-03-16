@@ -5,8 +5,9 @@ import android.content.Context
 import dagger.Binds
 import dagger.Module
 
-@Module(includes = [NetworkModule::class, UseCaseModule::class])
+@Module(includes = [NetworkModule::class, UseCaseModule::class, PresentationModule::class,ActivityBuilder::class])
 abstract class AppModule {
     @Binds
     abstract fun provideApp(application: Application): Context
+
 }

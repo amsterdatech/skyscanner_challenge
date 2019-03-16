@@ -2,9 +2,10 @@ package com.dutchtechnologies.data.mapper
 
 import com.dutchtechnologies.data.remote.PriceSearchForm
 import com.dutchtechnologies.domain.interactor.SearchRequest
+import javax.inject.Inject
 
 
-open class SearchFormMapper : Mapper<PriceSearchForm, SearchRequest> {
+open class SearchFormMapper @Inject constructor() : Mapper<PriceSearchForm, SearchRequest> {
 
     override fun mapFromEntity(type: PriceSearchForm): SearchRequest {
         return SearchRequest(

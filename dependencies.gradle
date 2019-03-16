@@ -49,6 +49,8 @@ ext {
     daggerCompiler = "com.google.dagger:dagger-android-processor:${daggerVersion}"
     dagger = "com.google.dagger:dagger:${daggerVersion}"
     daggerSupport = "com.google.dagger:dagger-android-support:${daggerVersion}"
+    daggerAndroid = "com.google.dagger:dagger-android:${daggerVersion}"
+
 
     jUnit = "junit:junit:${jUnitVersion}"
     mockito = "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"

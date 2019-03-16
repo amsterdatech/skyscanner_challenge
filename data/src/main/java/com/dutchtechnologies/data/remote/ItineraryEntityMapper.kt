@@ -4,11 +4,12 @@ import com.dutchtechnologies.data.model.ItineraryEntity
 import com.dutchtechnologies.data.model.LegEntity
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-open class ItineraryEntityMapper constructor() : EntityMapper<ItineraryModel, List<ItineraryEntity>> {
+open class ItineraryEntityMapper @Inject constructor() : EntityMapper<LivePricesResponse, List<ItineraryEntity>> {
 
 
-    override fun mapFromRemote(type: ItineraryModel): List<ItineraryEntity> {
+    override fun mapFromRemote(type: LivePricesResponse): List<ItineraryEntity> {
         return type.Itineraries.map {
             processItinerary(it, type.Agents, type.Carriers, type.Legs, type.Places)
         }
@@ -28,7 +29,7 @@ open class ItineraryEntityMapper constructor() : EntityMapper<ItineraryModel, Li
         var destination: String
         var departure: String
         var arrival: String
-        var duration: Int
+        var duration: String
         var directionality: String
         var carrierName: String
         var carrierLog: String
@@ -43,33 +44,36 @@ open class ItineraryEntityMapper constructor() : EntityMapper<ItineraryModel, Li
             price = po.Price
         }
 
-        val legs = legs.filter {
-            it.Id == outLegId || it.Id == inLegId
-        }
 
-        val legEntities = legs.map {
-            origin = places.first { p -> p.Id == it.OriginStation }.Name
-            destination = places.first { p -> p.Id == it.DestinationStation }.Name
-            departure = it.Departure.formatToServerDateTimeDefaults()
-            arrival = it.Arrival.formatToServerDateTimeDefaults()
-            duration = it.Duration
-            directionality = it.Directionality
+        val legEntities = legs
+            .filter {
+                it.Id == outLegId || it.Id == inLegId
+            }
+            .map {
+                origin = places.first { p -> p.Id == it.OriginStation }.Name
+                destination = places.first { p -> p.Id == it.DestinationStation }.Name
+                departure = it.Departure.formatToServerDateTimeDefaults()
+                arrival = it.Arrival.formatToServerDateTimeDefaults()
 
-            val carrier = carriers.first { c -> c.Id == it.Carriers[0] }
-            carrierName = carrier.Name
-            carrierLog = carrier.ImageUrl
 
-            LegEntity(
-                carrierLog,
-                carrierName,
-                origin,
-                destination,
-                departure,
-                arrival,
-                duration.toString(),
-                directionality
-            )
-        }
+                duration = "${it.Duration / 60}h${it.Duration % 60}m"
+                directionality = it.Directionality
+
+                val carrier = carriers.first { c -> c.Id == it.Carriers[0] }
+                carrierName = carrier.Name
+                carrierLog = carrier.ImageUrl
+
+                LegEntity(
+                    carrierLog,
+                    carrierName,
+                    origin,
+                    destination,
+                    departure,
+                    arrival,
+                    duration.toString(),
+                    directionality
+                )
+            }
 
         return ItineraryEntity(price.toString(), agent, "", legEntities)
     }
@@ -77,8 +81,8 @@ open class ItineraryEntityMapper constructor() : EntityMapper<ItineraryModel, Li
     /**
      * Pattern: yyyy-MM-dd HH:mm:ss
      */
-    fun Date.formatToServerDateTimeDefaults(): String{
-        val sdf= SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    fun Date.formatToServerDateTimeDefaults(): String {
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
         return sdf.format(this)
     }
 

@@ -2,8 +2,9 @@ package com.dutchtechnologies.data.mapper
 
 import com.dutchtechnologies.data.model.LegEntity
 import com.dutchtechnologies.domain.Leg
+import javax.inject.Inject
 
-open class LegMapper constructor() :
+open class LegMapper @Inject constructor() :
     Mapper<LegEntity, Leg> {
 
     override fun mapFromEntity(type: LegEntity): Leg {

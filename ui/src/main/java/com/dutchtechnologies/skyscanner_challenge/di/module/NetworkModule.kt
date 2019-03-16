@@ -27,12 +27,12 @@ class NetworkModule {
     @Provides
     @Singleton
     @Named(NAMED_REST_SERVER_URL)
-    fun provideRestServer() = ""//        BuildConfig.REST_SERVER
+    fun provideRestServer() = BuildConfig.REST_SERVER
 
     @Provides
     @Singleton
     fun provideGson(): Gson = GsonBuilder()
-        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+//        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         .setDateFormat(DATE_FORMAT)
         .disableHtmlEscaping()
         .create()

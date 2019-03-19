@@ -8,6 +8,7 @@ ext {
     nameVersion = "1.0.0"
 
     supportLibraryVersion = "28.0.0"
+    archVersion = "2.0.0"
     androidXVersion = "1.0.0"
     glideVersion = "4.8.0"
     retrofitVersion = "2.4.0"
@@ -15,7 +16,7 @@ ext {
     rxAndroidVersion = "2.0.1"
     okHttpVersion = '3.8.1'
     gsonVersion = '2.8.1'
-    daggerVersion = '2.16'
+    daggerVersion = '2.17'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
 
@@ -24,7 +25,7 @@ ext {
 
 
     kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    coreKtx = "androidx.core:core-ktx:${androidXVersion}-alpha05"
+    coreKtx = "androidx.core:core-ktx:${androidXVersion}-alpha01"
     design = "com.google.android.material:material:${androidXVersion}-rc01"
     appCompat = "androidx.appcompat:appcompat:${androidXVersion}"
     constraintLayout = "androidx.constraintlayout:constraintlayout:1.1.3"
@@ -33,6 +34,13 @@ ext {
     cardView = "androidx.cardview:cardview:${androidXVersion}"
     support = "androidx.legacy:legacy-support-v4:${androidXVersion}"
     glide = "com.github.bumptech.glide:glide:${glideVersion}"
+
+    archLifecycleExtensions =  "androidx.lifecycle:lifecycle-extensions:${archVersion}-rc01"
+    archLifecycleRuntime =  "androidx.lifecycle:lifecycle-runtime:${archVersion}-rc01"
+    archLifecycleCompiler =  "androidx.lifecycle:lifecycle-compiler:${archVersion}-rc01"
+    archLifecyclerViewModel = "androidx.lifecycle:lifecycle-viewmodel:${archVersion}-rc02"
+
+
 
     retrofit = "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     retrofitConverter = "com.squareup.retrofit2:converter-gson:${retrofitVersion}"

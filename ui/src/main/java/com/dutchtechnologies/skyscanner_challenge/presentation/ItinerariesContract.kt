@@ -1,6 +1,5 @@
 package com.dutchtechnologies.skyscanner_challenge.presentation
 
-import com.dutchtechnologies.domain.model.SearchRequest
 import com.dutchtechnologies.skyscanner_challenge.model.Itinerary
 import com.dutchtechnologies.skyscanner_challenge.model.SearchRequestForm
 
@@ -18,7 +17,7 @@ interface ItinerariesContract {
     }
 
     interface BaseView<in T : BasePresenter> {
-        fun setPresenter(presenter: T)
+//        fun setPresenter(presenter: T)
 
         fun showProgress()
 

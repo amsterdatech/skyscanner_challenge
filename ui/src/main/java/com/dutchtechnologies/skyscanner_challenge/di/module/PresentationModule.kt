@@ -14,7 +14,11 @@ class PresentationModule {
 //    }
 
     @Provides
-    internal fun provideBrowsePresenter(getItinerates: GetItinerariesListSingleUseCase, mapper:SearchRequestMapper): ItinerariesPresenter {
+    internal fun provideBrowsePresenter(
+        getItinerates: GetItinerariesListSingleUseCase,
+        mapper: SearchRequestMapper
+    ): ItinerariesPresenter {
         return ItinerariesPresenter(getItinerates, mapper)
     }
+
 }

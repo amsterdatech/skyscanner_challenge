@@ -33,6 +33,7 @@ class ItinerariesPresenter @Inject constructor(
 
     override fun search(searchRequest: SearchRequestForm?) {
         view.showProgress()
+        view.hideResults()
         getItinerariesUseCase
             .execute(
                 ItinerarySubscriber(), mapper.mapFromView(searchRequest)

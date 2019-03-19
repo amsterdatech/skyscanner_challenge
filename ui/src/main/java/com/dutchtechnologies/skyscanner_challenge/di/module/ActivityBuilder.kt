@@ -6,6 +6,6 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBuilder {
-    @ContributesAndroidInjector()
-    abstract fun contributeItinerariesActivity(): SearchResultsActivity
+    @ContributesAndroidInjector
+    abstract fun contributeSearchResultsActivity(): SearchResultsActivity
 }

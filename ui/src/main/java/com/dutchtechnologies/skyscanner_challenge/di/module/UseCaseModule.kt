@@ -25,10 +25,10 @@ class UseCaseModule {
     @Provides
     @Singleton
     internal fun provideGetItinerariesListSingleUseCase(
-        articlesRepository: ItinerariesDataRepository,
+        resultsRepository: ItinerariesDataRepository,
         @Named("ioScheduler") ioScheduler: Scheduler,
         @Named("mainThreadScheduler") mainThreadScheduler: Scheduler
     ): GetItinerariesListSingleUseCase =
 
-        GetItinerariesListSingleUseCase(articlesRepository, ioScheduler, mainThreadScheduler)
+        GetItinerariesListSingleUseCase(resultsRepository, ioScheduler, mainThreadScheduler)
 }

@@ -44,6 +44,11 @@ dependencies {
     implementation support
     implementation glide
 
+    implementation archLifecycleExtensions
+    implementation archLifecycleRuntime
+
+    kapt archLifecycleCompiler
+
     implementation dagger
     implementation daggerSupport
     implementation daggerAndroid

@@ -6,24 +6,34 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dutchtechnologies.skyscanner_challenge.BuildConfig
 import com.dutchtechnologies.skyscanner_challenge.R
 import com.dutchtechnologies.skyscanner_challenge.model.Itinerary
 import com.dutchtechnologies.skyscanner_challenge.model.SearchRequestForm
+import com.dutchtechnologies.skyscanner_challenge.model.ViewData
 import com.dutchtechnologies.skyscanner_challenge.presentation.ItinerariesContract
-import com.dutchtechnologies.skyscanner_challenge.presentation.ItinerariesPresenter
+import com.dutchtechnologies.skyscanner_challenge.presentation.SearchViewModel
 import com.dutchtechnologies.skyscanner_challenge.utils.*
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_search_results.*
 import java.util.*
 import javax.inject.Inject
 
-class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.View, View.OnClickListener {
+class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.View, View.OnClickListener, LifecycleOwner {
 
+//    @Inject
+//    lateinit var itineratesPresenter: ItinerariesPresenter
 
     @Inject
-    lateinit var itineratesPresenter: ItinerariesPresenter
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+
+    lateinit var searchViewModel: SearchViewModel
+
 
     private var searchRequestForm: SearchRequestForm? = null
 
@@ -56,6 +66,11 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        searchViewModel = withViewModel(viewModelFactory) {
+            observeResults(searchViewModel)
+        }
+
+
         savedInstanceState?.let {
             if (it.containsKey(SEARCH_REQUEST_FORM)) {
                 searchRequestForm = it.getParcelable(SEARCH_REQUEST_FORM)
@@ -64,24 +79,61 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
             searchRequestForm = extra(SEARCH_REQUEST_FORM, SearchResultsActivity.DEFAULT_SEARCH)
         }
 
-
         setContentView(R.layout.activity_search_results)
         setupToolbar()
         setupRecyclerView()
 
+
+    }
+
+    private fun observeResults(searchViewModel: SearchViewModel) {
+        observe(searchViewModel.results()) {
+            when (it?.status) {
+                ViewData.Status.LOADING -> {
+                    showProgress()
+                }
+
+                ViewData.Status.SUCCESS -> {
+                    hideProgress()
+                    hideErrorState()
+
+                    it.data?.let { list ->
+                        if (!list.isEmpty()) {
+                            hideEmptyState()
+                            showResults(list)
+
+                        } else {
+                            hideResults()
+                            showEmptyState()
+                        }
+                    }
+                }
+
+                ViewData.Status.ERROR -> {
+                    hideProgress()
+                    hideEmptyState()
+                    hideResults()
+                    showErrorState()
+
+                }
+            }
+
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        itineratesPresenter.attachView(this)
-        itineratesPresenter.start()
-        itineratesPresenter.search(searchRequestForm)
+//        itineratesPresenter.attachView(this)
+//        itineratesPresenter.start()
+//        itineratesPresenter.search(searchRequestForm)
+        searchViewModel.search(searchRequestForm)
+
 
     }
 
     override fun onStop() {
         super.onStop()
-        itineratesPresenter.stop()
+//        itineratesPresenter.stop()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -107,6 +159,7 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
         outState?.putParcelable(SEARCH_REQUEST_FORM, searchRequestForm)
         super.onSaveInstanceState(outState)
     }
+
 
     private fun setupRecyclerView() {
         activity_itineraries_recycler_view.addItemDecoration(
@@ -195,7 +248,11 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
     override fun hideEmptyState() {
     }
 
-    override fun setPresenter(presenter: ItinerariesContract.Presenter) {
-        itineratesPresenter = presenter as ItinerariesPresenter
+//    override fun setPresenter(presenter: ItinerariesContract.Presenter) {
+//        itineratesPresenter = presenter as ItinerariesPresenter
+//    }
+
+    override fun getLifecycle(): Lifecycle {
+        return super.getLifecycle()
     }
 }

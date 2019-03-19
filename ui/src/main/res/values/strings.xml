@@ -6,8 +6,12 @@
     <string name="zero_stops">Non-stop</string>
 
     <plurals name="stops">
-        <item quantity="zero">Non-stop</item>
         <item quantity="one">1 stop</item>
         <item quantity="other">%d stops</item>
+    </plurals>
+
+    <plurals name="adults">
+        <item quantity="one">1 adult</item>
+        <item quantity="other">%d adults</item>
     </plurals>
 </resources>

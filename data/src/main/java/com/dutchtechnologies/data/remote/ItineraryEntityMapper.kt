@@ -94,4 +94,5 @@ open class ItineraryEntityMapper @Inject constructor() : EntityMapper<LivePrices
         return sdf.format(this)
     }
 
+
 }

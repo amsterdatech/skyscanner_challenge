@@ -17,6 +17,8 @@ class LegsAdapter : RecyclerView.Adapter<LegsAdapter.ViewHolder>() {
 
     var items: List<Leg> by Delegates.observable(emptyList()) { _, _, _ -> notifyDataSetChanged() }
 
+    lateinit var click:View.OnClickListener
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
@@ -29,12 +31,14 @@ class LegsAdapter : RecyclerView.Adapter<LegsAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
+        holder.containerView.setOnClickListener(click)
+
     }
 
     override fun getItemCount(): Int = items.size
 
 
-    class ViewHolder(private val containerView: View) : RecyclerView.ViewHolder(containerView) {
+    class ViewHolder(val containerView: View) : RecyclerView.ViewHolder(containerView) {
 
         private val legCarrierLogo = containerView.custom_view_leg_carrier_logo
         private val legDepartureArrivalTime = containerView.custom_view_leg_from_to_hours
@@ -45,6 +49,8 @@ class LegsAdapter : RecyclerView.Adapter<LegsAdapter.ViewHolder>() {
 
         @SuppressLint("SetTextI18n")
         fun bind(leg: Leg) {
+            legCarrierLogo.load(leg.carrierLogo)
+
             legDepartureArrivalTime.text = "${leg.departure} - ${leg.arrival}"
             legOriginDestinationAirportsWithCarrier.text =
                 "${leg.originCode} - ${leg.destinationCode}, ${leg.carrierName}"
@@ -55,8 +61,8 @@ class LegsAdapter : RecyclerView.Adapter<LegsAdapter.ViewHolder>() {
                 legDirectionality.text = containerView.context.getText(R.string.zero_stops)
             }
 
+
             legDuration.text = leg.duration
-            legCarrierLogo.load(leg.carrierLogo)
         }
     }
 }

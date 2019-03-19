@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun ImageView.load(url: String?, bitmapConfig: Bitmap.Config = Bitmap.Config.RGB_565) {
     val options = RequestOptions()
@@ -57,7 +59,18 @@ fun Context.getDimens(dimen: Int) = resources.getDimension(dimen).toInt()
 
 fun Context.getColorRes(colorRes: Int) = ResourcesCompat.getColor(resources, colorRes, null)
 
-fun Context.getQuantityString(plural:Int, quantity: Int) = resources.getQuantityString(plural, quantity,quantity)
+fun Context.getQuantityString(plural: Int, quantity: Int) = resources.getQuantityString(plural, quantity, quantity)
+
+
+fun Date.formatToDayMonthName(): String {
+    val sdf = SimpleDateFormat("dd MMM", Locale.getDefault())
+    return sdf.format(this)
+}
+
+fun String.parseIsoDateFormat(): Date {
+    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    return sdf.parse(this)
+}
 
 
 

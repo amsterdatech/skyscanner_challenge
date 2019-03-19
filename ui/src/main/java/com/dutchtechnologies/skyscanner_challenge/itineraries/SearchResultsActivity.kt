@@ -16,9 +16,11 @@ import com.dutchtechnologies.skyscanner_challenge.presentation.ItinerariesPresen
 import com.dutchtechnologies.skyscanner_challenge.utils.*
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_search_results.*
+import java.util.*
 import javax.inject.Inject
 
-class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.View {
+class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.View, View.OnClickListener {
+
 
     @Inject
     lateinit var itineratesPresenter: ItinerariesPresenter
@@ -54,7 +56,14 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        searchRequestForm = extra(SEARCH_REQUEST_FORM, SearchResultsActivity.DEFAULT_SEARCH)
+        savedInstanceState?.let {
+            if (it.containsKey(SEARCH_REQUEST_FORM)) {
+                searchRequestForm = it.getParcelable(SEARCH_REQUEST_FORM)
+            }
+        } ?: run {
+            searchRequestForm = extra(SEARCH_REQUEST_FORM, SearchResultsActivity.DEFAULT_SEARCH)
+        }
+
 
         setContentView(R.layout.activity_search_results)
         setupToolbar()
@@ -66,7 +75,6 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
         super.onStart()
         itineratesPresenter.attachView(this)
         itineratesPresenter.start()
-
         itineratesPresenter.search(searchRequestForm)
 
     }
@@ -91,12 +99,36 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
         }
     }
 
+    override fun onClick(v: View?) {
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putParcelable(SEARCH_REQUEST_FORM, searchRequestForm)
+        super.onSaveInstanceState(outState)
+    }
+
     private fun setupRecyclerView() {
         activity_itineraries_recycler_view.addItemDecoration(
             MarginItemDecoration(getDimens(R.dimen.spacings_eight))
         )
-
         activity_itineraries_recycler_view.layoutManager = LinearLayoutManager(this)
+
+        adapter.click = this
+
+        searchRequestForm?.let {
+
+            val locale = it.locale.split("-")
+            val lang = locale[0]
+            var country = ""
+
+            if (locale.size > 1) {
+                locale[1]
+            }
+
+            adapter.locale = Locale(lang, country)
+            adapter.currency = Currency.getInstance(it.currency)
+        }
         activity_itineraries_recycler_view.adapter = adapter
     }
 
@@ -106,7 +138,14 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val titleToolbar = "${searchRequestForm?.originPlace} - ${searchRequestForm?.destinationPlace}"
-        val subtitleToolbar = "12 Nov - 16 Nov, 1 adult, economy"
+
+        val inboundDate = searchRequestForm?.inbounddate?.parseIsoDateFormat()?.formatToDayMonthName()
+        val outboundDate = searchRequestForm?.outbounddate?.parseIsoDateFormat()?.formatToDayMonthName()
+
+        var adults = getQuantityString(R.plurals.adults, searchRequestForm?.adults ?: 0)
+        val cabineClass = searchRequestForm?.cabinClass
+
+        val subtitleToolbar = "$outboundDate - $inboundDate"
 
         activity_itineraries_text_view_query_info.text =
             TextUtils.concat(
@@ -115,7 +154,7 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
                     getColorRes(android.R.color.white)
                 ), "\n",
                 subtitleToolbar.secondaryText(
-                    getDimensPixelSize(R.dimen.secondaryTextSize),
+                    getDimensPixelSize(R.dimen.toolbarSecondaryTextSize),
                     getColorRes(R.color.subtitleSecondaryColor)
                 )
             )

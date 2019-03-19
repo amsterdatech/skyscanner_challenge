@@ -1,30 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- Base application theme. -->
-    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
-        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
-        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
-        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-        <!--<item name="colorAccent">@color/colorAccent</item>-->
-    <!--</style>-->
-
-    <!-- Theme -->
-    <style name="Theme.Skyscanner" parent="Theme.Base" />
-
     <style name="Theme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-        <item name="colorControlHighlight">@color/colorControlHighlight</item>
 
         <item name="android:textColorPrimary">@color/textPrimaryColor</item>
         <item name="android:textColorSecondary">@color/textSecondaryColor</item>
 
         <!--<item name="buttonStyle">@style/Base.Button.Normal</item>-->
         <!--<item name="toolbarStyle">@style/Base.Toolbar</item>-->
+        <!--<item name="castMiniControllerStyle">@style/CustomCastMiniController</item>-->
         <!--<item name="android:alertDialogTheme">@style/Theme.Base.AlertDialog</item>-->
         <!--<item name="alertDialogTheme">@style/Theme.Base.AlertDialog</item>-->
+
         <!--<item name="actionModeStyle">@style/Base.ActionModeTheme</item>-->
         <item name="android:windowBackground">@color/colorWindowBackground</item>
         <item name="windowActionModeOverlay">true</item>
@@ -32,15 +21,8 @@
     </style>
 
     <style name="Theme.BrandedLaunch" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowBackground">@drawable/layer_list_branded</item>
     </style>
-
-    <!-- Base Toolbar -->
-    <style name="Base.Toolbar" parent="@style/Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="titleTextColor">@android:color/white</item>
-        <!--<item name="titleTextAppearance">@style/Base.Toolbar.TextAppearance</item>-->
-        <!--<item name="android:textSize">@dimen/text_size_twenty</item>-->
-    </style>
-
 </resources>

@@ -40,14 +40,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:fitsSystemWindows="true"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark">
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/activity_itineraries_text_view_query_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="BUD - London"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/white"/>
 

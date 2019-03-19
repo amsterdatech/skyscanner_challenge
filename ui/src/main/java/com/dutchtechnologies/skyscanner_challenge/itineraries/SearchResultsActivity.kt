@@ -35,6 +35,8 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
 
     companion object {
         private const val SEARCH_REQUEST_FORM = "SEARCH_REQUEST_FORM"
+        private const val SEARCH_RESULTS = "SEARCH_RESULTS"
+
 
         @JvmStatic
         private val DEFAULT_SEARCH = SearchRequestForm(
@@ -60,6 +62,10 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
             if (it.containsKey(SEARCH_REQUEST_FORM)) {
                 searchRequestForm = it.getParcelable(SEARCH_REQUEST_FORM)
             }
+
+            if(it.containsKey(SEARCH_RESULTS)){
+                adapter.items = it.getParcelableArrayList(SEARCH_RESULTS)
+            }
         } ?: run {
             searchRequestForm = extra(SEARCH_REQUEST_FORM, SearchResultsActivity.DEFAULT_SEARCH)
         }
@@ -75,7 +81,10 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
         super.onStart()
         itineratesPresenter.attachView(this)
         itineratesPresenter.start()
-        itineratesPresenter.search(searchRequestForm)
+
+        if(adapter.items == null || adapter.items.isEmpty()) {
+            itineratesPresenter.search(searchRequestForm)
+        }
 
     }
 
@@ -105,6 +114,7 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
 
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putParcelable(SEARCH_REQUEST_FORM, searchRequestForm)
+        outState?.putParcelableArrayList(SEARCH_RESULTS,adapter.items as ArrayList)
         super.onSaveInstanceState(outState)
     }
 

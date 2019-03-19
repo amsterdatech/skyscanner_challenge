@@ -1,4 +1,4 @@
-package com.dutchtechnologies.domain.interactor
+package com.dutchtechnologies.domain.model
 
 data class SearchRequest(
     val apiKey: String = "",

@@ -6,7 +6,7 @@
         android:id="@+id/activity_itineraries_content_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".itineraries.ItinerariesActivity">
+        tools:context=".itineraries.SearchResultsActivity">
 
     <androidx.core.widget.ContentLoadingProgressBar
             android:layout_width="wrap_content"
@@ -14,6 +14,7 @@
             style="?android:attr/progressBarStyle"
             android:id="@+id/activity_itineraries_custom_view_loading"
             android:layout_gravity="center"
+            android:visibility="gone"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <androidx.recyclerview.widget.RecyclerView

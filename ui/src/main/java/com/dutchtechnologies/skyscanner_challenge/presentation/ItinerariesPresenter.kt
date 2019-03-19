@@ -1,58 +1,49 @@
 package com.dutchtechnologies.skyscanner_challenge.presentation
 
 import com.dutchtechnologies.domain.Itinerary
-import com.dutchtechnologies.domain.interactor.SearchRequest
 import com.dutchtechnologies.domain.interactor.SingleUseCase
-import com.dutchtechnologies.skyscanner_challenge.BuildConfig
+import com.dutchtechnologies.domain.model.SearchRequest
+import com.dutchtechnologies.skyscanner_challenge.mapper.SearchRequestMapper
 import com.dutchtechnologies.skyscanner_challenge.model.Leg
+import com.dutchtechnologies.skyscanner_challenge.model.SearchRequestForm
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 import com.dutchtechnologies.skyscanner_challenge.model.Itinerary as ItineraryView
 
 
 class ItinerariesPresenter @Inject constructor(
-    private val getItinerariesUseCase: SingleUseCase<List<Itinerary>, SearchRequest>
+    private val getItinerariesUseCase: SingleUseCase<List<Itinerary>, SearchRequest>,
+    private val mapper: SearchRequestMapper
 ) :
     ItinerariesContract.Presenter {
 
     lateinit var view: ItinerariesContract.View
+
 
     fun attachView(view: Any?) {
         this.view = view as ItinerariesContract.View
     }
 
     override fun start() {
-        retrieveItineraries(BuildConfig.API_KEY)
     }
 
     override fun stop() {
         getItinerariesUseCase.dispose()
     }
 
-    override fun retrieveItineraries(apiKey: String) {
+    override fun search(searchRequest: SearchRequestForm?) {
+        view.showProgress()
         getItinerariesUseCase
             .execute(
-                ItinerarySubscriber(),
-                SearchRequest(
-                    apiKey = apiKey,
-                    cabinClass = "Economy",
-                    country = "UK",
-                    currency = "GBP",
-                    locale = "GB",
-                    locationSchema = "iata",
-                    originPlace = "EDI",
-                    destinationPlace = "LHR",
-                    outbounddate = "2019-03-18",
-                    inbounddate = "2019-03-19",
-                    adults = 1
-                )
+                ItinerarySubscriber(), mapper.mapFromView(searchRequest)
             )
     }
 
     internal fun handleSuccess(results: List<Itinerary>) {
         view.hideErrorState()
+        view.hideProgress()
+
         if (results.isNotEmpty()) {
-            view.hideProgress()
             view.hideEmptyState()
             view.showResults(results.map { itinerary ->
                 //                bufferooMapper.mapToView(it)
@@ -74,6 +65,7 @@ class ItinerariesPresenter @Inject constructor(
                     })
             })
         } else {
+            view.hideProgress()
             view.hideResults()
             view.showEmptyState()
         }

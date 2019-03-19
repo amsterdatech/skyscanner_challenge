@@ -56,7 +56,7 @@ open class ItineraryEntityMapper @Inject constructor() : EntityMapper<LivePrices
                 arrival = it.Arrival.formatToServerDateTimeDefaults()
 
 
-                duration = "${it.Duration / 60}h${it.Duration % 60}m"
+                duration = "${it.Duration / 60}h ${it.Duration % 60}m"
                 directionality = it.Directionality
 
                 val carrier = carriers.first { c -> c.Id == it.Carriers[0] }
@@ -70,7 +70,7 @@ open class ItineraryEntityMapper @Inject constructor() : EntityMapper<LivePrices
                     destination,
                     departure,
                     arrival,
-                    duration.toString(),
+                    duration,
                     directionality
                 )
             }

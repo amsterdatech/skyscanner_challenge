@@ -1,16 +1,28 @@
 package com.dutchtechnologies.skyscanner_challenge.presentation
 
+import com.dutchtechnologies.domain.model.SearchRequest
 import com.dutchtechnologies.skyscanner_challenge.model.Itinerary
+import com.dutchtechnologies.skyscanner_challenge.model.SearchRequestForm
 
 interface ItinerariesContract {
 
     interface View : BaseView<Presenter> {
+        fun showResults(itinerarios: List<Itinerary>)
+    }
+
+
+    interface BasePresenter {
+        fun start()
+
+        fun stop()
+    }
+
+    interface BaseView<in T : BasePresenter> {
+        fun setPresenter(presenter: T)
 
         fun showProgress()
 
         fun hideProgress()
-
-        fun showResults(itinerarios: List<Itinerary>)
 
         fun hideResults()
 
@@ -24,19 +36,9 @@ interface ItinerariesContract {
 
     }
 
-    interface BasePresenter {
-        fun start()
-
-        fun stop()
-    }
-
-
     interface Presenter : BasePresenter {
-        fun retrieveItineraries(apiKey:String)
+        fun search(searchRequest: SearchRequestForm? = null)
     }
 
-    interface BaseView<in T : BasePresenter> {
-        fun setPresenter(presenter: T)
 
-    }
 }

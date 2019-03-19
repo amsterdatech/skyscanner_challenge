@@ -5,7 +5,7 @@ import com.dutchtechnologies.data.mapper.SearchFormMapper
 import com.dutchtechnologies.data.source.ItineraryDataStoreFactory
 import com.dutchtechnologies.domain.Itinerary
 import com.dutchtechnologies.domain.ItineraryRepository
-import com.dutchtechnologies.domain.interactor.SearchRequest
+import com.dutchtechnologies.domain.model.SearchRequest
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -22,6 +22,7 @@ class ItinerariesDataRepository @Inject constructor(
 
 
     override fun getItineraries(search: SearchRequest?): Single<List<Itinerary>> {
+
         val dataStore = factory.retrieveDataStore()
         return dataStore
             .getItineraries(

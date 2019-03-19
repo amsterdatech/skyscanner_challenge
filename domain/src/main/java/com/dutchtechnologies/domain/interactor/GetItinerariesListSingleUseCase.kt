@@ -2,6 +2,7 @@ package com.dutchtechnologies.domain.interactor
 
 import com.dutchtechnologies.domain.Itinerary
 import com.dutchtechnologies.domain.ItineraryRepository
+import com.dutchtechnologies.domain.model.SearchRequest
 import io.reactivex.Scheduler
 import javax.inject.Inject
 

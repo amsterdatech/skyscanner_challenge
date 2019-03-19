@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dutchtechnologies.domain.model.SearchRequest
 import com.dutchtechnologies.skyscanner_challenge.BuildConfig
 import com.dutchtechnologies.skyscanner_challenge.R
 import com.dutchtechnologies.skyscanner_challenge.model.Itinerary
@@ -44,7 +43,7 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
             locale = "GB",
             locationSchema = "iata",
             originPlace = "EDI",
-            destinationPlace = "LHR",
+            destinationPlace = "LON",
             outbounddate = "2019-03-25",
             inbounddate = "2019-03-26",
             adults = 1
@@ -131,11 +130,12 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
         activity_itineraries_custom_view_loading.visibility = View.GONE
     }
 
-    override fun showResults(itinerarios: List<Itinerary>) {
+    override fun showResults(results: List<Itinerary>) {
         activity_itineraries_recycler_view.visibility = View.VISIBLE
         activity_itineraries_results_filters_bar.visibility = View.VISIBLE
+        activity_itineraries_text_view_count_pages_results.text = "${results.size} results"
 
-        adapter.items = itinerarios
+        adapter.items = results
     }
 
     override fun hideResults() {

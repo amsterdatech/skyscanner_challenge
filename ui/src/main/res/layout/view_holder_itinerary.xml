@@ -21,24 +21,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                app:layout_constraintBottom_toTopOf="@+id/custom_view_itinerary_divider"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 tools:listitem="@layout/view_holder_leg"
                 tools:visibility="visible"/>
 
 
-        <View
-                android:id="@+id/custom_view_itinerary_divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="12dp"
-                android:background="#dbdbdb"
-                app:layout_constraintBottom_toTopOf="@+id/custom_view_itinerary_text_view_price_with_carrier"
-                app:layout_constraintEnd_toEndOf="@id/custom_view_itinerary_content_root"
-                app:layout_constraintStart_toStartOf="@id/custom_view_itinerary_content_root"
-                app:layout_constraintVertical_bias="1.0"/>
+        <!--<View-->
+                <!--android:id="@+id/custom_view_itinerary_divider"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_marginBottom="12dp"-->
+                <!--android:background="#dbdbdb"-->
+                <!--app:layout_constraintBottom_toTopOf="@+id/custom_view_itinerary_text_view_price_with_carrier"-->
+                <!--app:layout_constraintEnd_toEndOf="@id/custom_view_itinerary_content_root"-->
+                <!--app:layout_constraintStart_toStartOf="@id/custom_view_itinerary_content_root"-->
+                <!--app:layout_constraintVertical_bias="1.0"/>-->
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/custom_view_itinerary_text_view_price_with_carrier"
@@ -47,29 +45,12 @@
                 android:layout_marginEnd="@dimen/spacings_sixteen"
                 android:layout_marginRight="@dimen/spacings_sixteen"
                 android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/custom_view_itinerary_legs_recycler_view"
+                app:layout_constraintBottom_toBottomOf="@id/custom_view_itinerary_content_root"
+                app:layout_constraintEnd_toEndOf="@id/custom_view_itinerary_content_root"
                 android:textSize="18sp"
-                android:textColor="@color/textPrimaryColor"
+                android:textColor="@color/textTertiaryColor"
                 tools:text="$35\nvia Wizzair.com"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/custom_view_itinerary_text_view_rating"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacings_sixteen"
-                android:layout_marginLeft="@dimen/spacings_sixteen"
-                android:layout_marginBottom="4dp"
-                android:gravity="center_vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textSize="18sp"
-                tools:text="10.0"
-                android:drawablePadding="2dp"
-                android:textColor="@color/textPrimaryColor"
-                android:drawableLeft="@drawable/ic_smile_face"
-                app:layout_constraintTop_toBottomOf="@+id/custom_view_itinerary_divider"
-                android:layout_marginTop="4dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

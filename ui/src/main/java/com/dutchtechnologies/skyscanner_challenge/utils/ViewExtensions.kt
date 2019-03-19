@@ -38,10 +38,16 @@ fun String.primaryTextBold(size: Int, color: Int, alignRight: Boolean = false): 
     return span1
 }
 
-fun String.secondaryText(size: Int, color: Int): SpannableString {
+fun String.secondaryText(size: Int, color: Int, alignRight: Boolean = false): SpannableString {
     val span2 = SpannableString(this)
     span2.setSpan(AbsoluteSizeSpan(size), 0, this.length, Spanned.SPAN_INCLUSIVE_INCLUSIVE)
     span2.setSpan(ForegroundColorSpan(color), 0, this.length, 0)// set color
+    span2.setSpan(
+        AlignmentSpan.Standard(if (alignRight) Layout.Alignment.ALIGN_OPPOSITE else Layout.Alignment.ALIGN_NORMAL),
+        0,
+        this.length,
+        0
+    )
     return span2
 }
 
@@ -50,5 +56,8 @@ fun Context.getDimensPixelSize(dimen: Int) = resources.getDimensionPixelSize(dim
 fun Context.getDimens(dimen: Int) = resources.getDimension(dimen).toInt()
 
 fun Context.getColorRes(colorRes: Int) = ResourcesCompat.getColor(resources, colorRes, null)
+
+fun Context.getQuantityString(plural:Int, quantity: Int) = resources.getQuantityString(plural, quantity,quantity)
+
 
 

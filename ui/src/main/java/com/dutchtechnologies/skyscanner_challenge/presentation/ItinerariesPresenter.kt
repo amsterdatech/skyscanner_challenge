@@ -46,7 +46,6 @@ class ItinerariesPresenter @Inject constructor(
         if (results.isNotEmpty()) {
             view.hideEmptyState()
             view.showResults(results.map { itinerary ->
-                //                bufferooMapper.mapToView(it)
                 ItineraryView(
                     itinerary.price,
                     itinerary.agent,
@@ -56,7 +55,9 @@ class ItinerariesPresenter @Inject constructor(
                             leg.carrierLogo,
                             leg.carrierName,
                             leg.origin,
+                            leg.originCode,
                             leg.destination,
+                            leg.destinationCode,
                             leg.departure,
                             leg.arrival,
                             leg.duration,

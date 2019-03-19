@@ -27,10 +27,13 @@ open class ItineraryEntityMapper @Inject constructor() : EntityMapper<LivePrices
 
         var origin: String
         var destination: String
+        var originCode:String
+        var destinationCode:String
+
         var departure: String
         var arrival: String
         var duration: String
-        var directionality: String
+        var directionality: Int
         var carrierName: String
         var carrierLog: String
 
@@ -51,23 +54,28 @@ open class ItineraryEntityMapper @Inject constructor() : EntityMapper<LivePrices
             }
             .map {
                 origin = places.first { p -> p.Id == it.OriginStation }.Name
+                originCode =  places.first { p -> p.Id == it.OriginStation }.Code
                 destination = places.first { p -> p.Id == it.DestinationStation }.Name
+                destinationCode = places.first { p -> p.Id == it.DestinationStation }.Code
+
                 departure = it.Departure.formatToServerDateTimeDefaults()
                 arrival = it.Arrival.formatToServerDateTimeDefaults()
 
 
                 duration = "${it.Duration / 60}h ${it.Duration % 60}m"
-                directionality = it.Directionality
+                directionality = it.Stops.size
 
                 val carrier = carriers.first { c -> c.Id == it.Carriers[0] }
                 carrierName = carrier.Name
-                carrierLog = carrier.ImageUrl
+                carrierLog = "https://logos.skyscnr.com/images/airlines/favicon/${carrier.Code}.png"
 
                 LegEntity(
                     carrierLog,
                     carrierName,
                     origin,
+                    originCode,
                     destination,
+                    destinationCode,
                     departure,
                     arrival,
                     duration,

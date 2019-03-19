@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dutchtechnologies.skyscanner_challenge.R
 import com.dutchtechnologies.skyscanner_challenge.model.Leg
+import com.dutchtechnologies.skyscanner_challenge.utils.getDimensPixelSize
+import com.dutchtechnologies.skyscanner_challenge.utils.getQuantityString
 import kotlinx.android.synthetic.main.view_holder_leg.view.*
 import com.dutchtechnologies.skyscanner_challenge.utils.load
 import kotlin.properties.Delegates
 
 class LegsAdapter : RecyclerView.Adapter<LegsAdapter.ViewHolder>() {
 
-        var items: List<Leg> by Delegates.observable(emptyList()) { _, _, _ -> notifyDataSetChanged() }
+    var items: List<Leg> by Delegates.observable(emptyList()) { _, _, _ -> notifyDataSetChanged() }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
@@ -32,7 +34,7 @@ class LegsAdapter : RecyclerView.Adapter<LegsAdapter.ViewHolder>() {
     override fun getItemCount(): Int = items.size
 
 
-    class ViewHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
+    class ViewHolder(private val containerView: View) : RecyclerView.ViewHolder(containerView) {
 
         private val legCarrierLogo = containerView.custom_view_leg_carrier_logo
         private val legDepartureArrivalTime = containerView.custom_view_leg_from_to_hours
@@ -40,11 +42,19 @@ class LegsAdapter : RecyclerView.Adapter<LegsAdapter.ViewHolder>() {
         private val legDirectionality = containerView.custom_view_leg_directionality
         private val legDuration = containerView.custom_view_leg_duration
 
+
         @SuppressLint("SetTextI18n")
         fun bind(leg: Leg) {
             legDepartureArrivalTime.text = "${leg.departure} - ${leg.arrival}"
-            legOriginDestinationAirportsWithCarrier.text = "${leg.origin} - ${leg.destination}, ${leg.carrierName}"
-            legDirectionality.text = leg.direction
+            legOriginDestinationAirportsWithCarrier.text =
+                "${leg.originCode} - ${leg.destinationCode}, ${leg.carrierName}"
+
+            if (leg.direction > 0) {
+                legDirectionality.text = containerView.context.getQuantityString(R.plurals.stops, leg.direction)
+            } else {
+                legDirectionality.text = containerView.context.getText(R.string.zero_stops)
+            }
+
             legDuration.text = leg.duration
             legCarrierLogo.load(leg.carrierLogo)
         }

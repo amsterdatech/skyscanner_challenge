@@ -7,15 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dutchtechnologies.skyscanner_challenge.model.Itinerary
-import com.dutchtechnologies.skyscanner_challenge.utils.MarginItemDecoration
 import com.dutchtechnologies.skyscanner_challenge.R
-import com.dutchtechnologies.skyscanner_challenge.utils.getColorRes
-import com.dutchtechnologies.skyscanner_challenge.utils.getDimens
-import com.dutchtechnologies.skyscanner_challenge.utils.getDimensPixelSize
+import com.dutchtechnologies.skyscanner_challenge.model.Itinerary
+import com.dutchtechnologies.skyscanner_challenge.utils.*
 import kotlinx.android.synthetic.main.view_holder_itinerary.view.*
-import com.dutchtechnologies.skyscanner_challenge.utils.primaryTextBold
-import com.dutchtechnologies.skyscanner_challenge.utils.secondaryText
 import kotlin.properties.Delegates
 
 
@@ -42,7 +37,6 @@ class ItinerariesAdapter : RecyclerView.Adapter<ItinerariesAdapter.ViewHolder>()
     class ViewHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
 
         private val itineraryPriceWithCarrier = containerView.custom_view_itinerary_text_view_price_with_carrier
-        private val itineraryRating = containerView.custom_view_itinerary_text_view_rating
         private val itineraryLegs = containerView.custom_view_itinerary_legs_recycler_view
 
         private val layoutManager = LinearLayoutManager(containerView.context, RecyclerView.VERTICAL, false)
@@ -53,7 +47,10 @@ class ItinerariesAdapter : RecyclerView.Adapter<ItinerariesAdapter.ViewHolder>()
         private val colorSecondary = containerView.context.getColorRes(R.color.textSecondaryColor)
         private val sizeSecondary = containerView.context.getDimensPixelSize(R.dimen.secondaryTextSize)
 
-        private val marginSize = containerView.context.getDimens(R.dimen.spacings_eight).toInt()
+        private val colorTertiary = containerView.context.getColorRes(R.color.textTertiaryColor)
+
+
+        private val marginSize = containerView.context.getDimens(R.dimen.spacings_four)
 
         private val legsAdapter = LegsAdapter()
 
@@ -75,18 +72,18 @@ class ItinerariesAdapter : RecyclerView.Adapter<ItinerariesAdapter.ViewHolder>()
                     .concat(
                         this.price
                             .primaryTextBold(
-                                sizePrimary, colorPrimary, true
+                                sizePrimary, colorTertiary, true
                             ),
                         "\n",
                         "via ${this.agent}".secondaryText(
                             sizeSecondary,
-                            colorSecondary
+                            colorSecondary, true
                         )
                     )
 
-                itineraryRating?.text = this.rating.primaryTextBold(
-                    sizePrimary, colorPrimary
-                )
+//                itineraryRating?.text = this.rating.primaryTextBold(
+//                    sizePrimary, colorPrimary
+//                )
                 legsAdapter.items = this.legs
             }
         }

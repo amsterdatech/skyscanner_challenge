@@ -64,7 +64,7 @@
                     android:id="@+id/activity_itineraries_text_view_count_pages_results"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="365 of 365 results"
+                    tools:text="365 of 365 results"
                     android:textSize="14sp"
                     android:textColor="@color/textPrimaryColor"
                     android:layout_marginBottom="8dp"
@@ -87,7 +87,8 @@
                     android:layout_marginTop="8dp"
                     android:textAllCaps="true"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"/>
 
 

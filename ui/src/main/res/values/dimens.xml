@@ -2,6 +2,8 @@
 <resources>
     <dimen name="spacings_sixteen">16dp</dimen>
     <dimen name="spacings_eight">8dp</dimen>
+    <dimen name="spacings_four">4dp</dimen>
+
 
     <dimen name="toolbarPrimaryTextSize">18sp</dimen>
     <dimen name="primaryTextSize">16sp</dimen>

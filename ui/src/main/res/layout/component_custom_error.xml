@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.core.widget.NestedScrollView
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:id="@+id/custom_view_error_root"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fitsSystemWindows="true" tools:showIn="@layout/activity_search_results">
+
+    <androidx.appcompat.widget.LinearLayoutCompat android:layout_width="match_parent"
+                                                  android:orientation="vertical"
+                                                  android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/custom_view_error_text_message"
+                android:text="@string/networking_error"
+                android:layout_gravity="center_horizontal"
+                android:textSize="14sp"
+                android:layout_marginLeft="@dimen/spacings_eight"
+                android:textColor="@color/textPrimaryColor"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/custom_view_error_button_retry"
+                android:layout_width="match_parent"
+                android:text="Retry"
+                android:layout_height="wrap_content"/>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.core.widget.NestedScrollView>
+
+    

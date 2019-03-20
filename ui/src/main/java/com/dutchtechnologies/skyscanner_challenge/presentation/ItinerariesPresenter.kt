@@ -54,7 +54,6 @@ class ItinerariesPresenter @Inject constructor(
             view.showResults(mapFromDomainToView(results))
 
         } else {
-//            view.hideResults()
             view.showEmptyState()
         }
     }
@@ -87,6 +86,7 @@ class ItinerariesPresenter @Inject constructor(
         view.hideEmptyState()
         view.hideProgress()
         view.hideResultLoading()
+        view.hideResults()
     }
 
     inner class ItinerarySubscriber : DisposableSingleObserver<List<Itinerary>>() {

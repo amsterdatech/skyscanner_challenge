@@ -17,6 +17,8 @@ import com.dutchtechnologies.skyscanner_challenge.presentation.ItinerariesPresen
 import com.dutchtechnologies.skyscanner_challenge.utils.*
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_search_results.*
+import kotlinx.android.synthetic.main.component_custom_error.*
+import kotlinx.android.synthetic.main.component_filter_bar.*
 import java.util.*
 import javax.inject.Inject
 
@@ -136,6 +138,11 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
     }
 
     override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.custom_view_error_button_retry ->{
+                itineratesPresenter.search(searchRequestForm)
+            }
+        }
 
     }
 
@@ -167,10 +174,10 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
     }
 
     override fun showResults(results: List<Itinerary>) {
-        adapter.items += results
-
         activity_itineraries_recycler_view.visibility = View.VISIBLE
         activity_itineraries_results_filters_bar.visibility = View.VISIBLE
+
+        adapter.items += results
         activity_itineraries_text_view_count_pages_results.text = "${adapter.items.size} results"
 
 
@@ -182,10 +189,12 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
     }
 
     override fun showErrorState() {
+        custom_view_error_root.visibility = View.VISIBLE
 
     }
 
     override fun hideErrorState() {
+        custom_view_error_root.visibility = View.GONE
     }
 
     override fun showEmptyState() {

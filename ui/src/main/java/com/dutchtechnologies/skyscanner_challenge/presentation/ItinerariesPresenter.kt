@@ -32,10 +32,14 @@ class ItinerariesPresenter @Inject constructor(
     }
 
     override fun search(searchRequest: SearchRequestForm?) {
-        view.showProgress()
-//        view.hideErrorState()
-//        view.hideEmptyState()
-//        view.hideResults()
+
+        searchRequest?.pageIndex?.let {
+            if(it == 1){
+                view.showProgress()
+            }else{
+                view.showResultLoading()
+            }
+        }
 
         getItinerariesUseCase
             .execute(
@@ -44,37 +48,45 @@ class ItinerariesPresenter @Inject constructor(
     }
 
     internal fun handleSuccess(results: List<Itinerary>) {
-//        view.hideErrorState()
-//        view.hideEmptyState()
-        view.hideProgress()
+        resetViewState()
 
         if (results.isNotEmpty()) {
-            view.hideEmptyState()
-            view.showResults(results.map { itinerary ->
-                ItineraryView(
-                    itinerary.price,
-                    itinerary.agent,
-                    itinerary.rating,
-                    itinerary.legs.map { leg ->
-                        Leg(
-                            leg.carrierLogo,
-                            leg.carrierName,
-                            leg.origin,
-                            leg.originCode,
-                            leg.destination,
-                            leg.destinationCode,
-                            leg.departure,
-                            leg.arrival,
-                            leg.duration,
-                            leg.direction
-                        )
-                    })
-            })
+            view.showResults(mapFromDomainToView(results))
+
         } else {
-            view.hideProgress()
-            view.hideResults()
+//            view.hideResults()
             view.showEmptyState()
         }
+    }
+
+    private fun mapFromDomainToView(results: List<Itinerary>): List<com.dutchtechnologies.skyscanner_challenge.model.Itinerary> {
+        return results.map { itinerary ->
+            ItineraryView(
+                itinerary.price,
+                itinerary.agent,
+                itinerary.rating,
+                itinerary.legs.map { leg ->
+                    Leg(
+                        leg.carrierLogo,
+                        leg.carrierName,
+                        leg.origin,
+                        leg.originCode,
+                        leg.destination,
+                        leg.destinationCode,
+                        leg.departure,
+                        leg.arrival,
+                        leg.duration,
+                        leg.direction
+                    )
+                })
+        }
+    }
+
+    private fun resetViewState() {
+        view.hideErrorState()
+        view.hideEmptyState()
+        view.hideProgress()
+        view.hideResultLoading()
     }
 
     inner class ItinerarySubscriber : DisposableSingleObserver<List<Itinerary>>() {
@@ -84,9 +96,7 @@ class ItinerariesPresenter @Inject constructor(
         }
 
         override fun onError(exception: Throwable) {
-            view.hideProgress()
-            view.hideResults()
-            view.hideEmptyState()
+            resetViewState()
             view.showErrorState()
         }
 

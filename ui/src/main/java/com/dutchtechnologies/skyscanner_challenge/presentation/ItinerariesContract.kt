@@ -8,6 +8,8 @@ interface ItinerariesContract {
 
     interface View : BaseView<Presenter> {
         fun showResults(results: List<Itinerary>)
+        fun showResultLoading()
+        fun hideResultLoading()
     }
 
 

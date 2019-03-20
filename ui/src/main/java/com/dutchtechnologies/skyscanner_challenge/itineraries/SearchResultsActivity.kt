@@ -30,6 +30,8 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
 
     private val adapter = ItinerariesAdapter()
 
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
+
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
@@ -66,16 +68,18 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
 
             if (it.containsKey(SEARCH_RESULTS)) {
                 adapter.items = it.getParcelableArrayList(SEARCH_RESULTS)
+
+
             }
         } ?: run {
             searchRequestForm = extra(SEARCH_REQUEST_FORM, SearchResultsActivity.DEFAULT_SEARCH)
         }
 
-
         setContentView(R.layout.activity_search_results)
         setupToolbar()
+        setupSortFilterBar()
         setupRecyclerView()
-
+        scrollListener.resetState()
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
@@ -87,6 +91,8 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
 
             if (it.containsKey(SEARCH_RESULTS)) {
                 adapter.items = it.getParcelableArrayList(SEARCH_RESULTS)
+                activity_itineraries_text_view_count_pages_results.text = "${adapter.items.size} results"
+
             }
         } ?: run {
             searchRequestForm = extra(SEARCH_REQUEST_FORM, SearchResultsActivity.DEFAULT_SEARCH)
@@ -108,6 +114,10 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
     override fun onStop() {
         super.onStop()
         itineratesPresenter.stop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -137,65 +147,14 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
         super.onSaveInstanceState(outState)
     }
 
-    private fun setupRecyclerView() {
-        activity_itineraries_recycler_view.addItemDecoration(
-            MarginItemDecoration(getDimens(R.dimen.spacings_eight))
-        )
 
-        val linearLayoutManager = LinearLayoutManager(this)
-        activity_itineraries_recycler_view.layoutManager = linearLayoutManager
-
-        adapter.click = this
-
-        searchRequestForm?.let {
-
-            val locale = it.locale.split("-")
-            val lang = locale[0]
-            var country = ""
-
-            if (locale.size > 1) {
-                locale[1]
-            }
-
-            adapter.locale = Locale(lang, country)
-            adapter.currency = Currency.getInstance(it.currency)
-        }
-        activity_itineraries_recycler_view.adapter = adapter
-        activity_itineraries_recycler_view.addOnScrollListener(object: EndlessRecyclerViewScrollListener(linearLayoutManager){
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                searchRequestForm?.pageIndex = page
-                itineratesPresenter.search(searchRequestForm)
-            }
-
-        })
+    override fun showResultLoading() {
+        activity_content_loading_progressbar.visibility = View.VISIBLE
+        activity_content_loading_progressbar.animate()
     }
 
-    private fun setupToolbar() {
-        setSupportActionBar(activity_itineraries_toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        val titleToolbar = "${searchRequestForm?.originPlace} - ${searchRequestForm?.destinationPlace}"
-
-        val inboundDate = searchRequestForm?.inbounddate?.parseIsoDateFormat()?.formatToDayMonthName()
-        val outboundDate = searchRequestForm?.outbounddate?.parseIsoDateFormat()?.formatToDayMonthName()
-
-        var adults = getQuantityString(R.plurals.adults, searchRequestForm?.adults ?: 0)
-        val cabineClass = searchRequestForm?.cabinClass
-
-        val subtitleToolbar = "$outboundDate - $inboundDate"
-
-        activity_itineraries_text_view_query_info.text =
-            TextUtils.concat(
-                titleToolbar.primaryTextBold(
-                    getDimensPixelSize(R.dimen.toolbarPrimaryTextSize),
-                    getColorRes(android.R.color.white)
-                ), "\n",
-                subtitleToolbar.secondaryText(
-                    getDimensPixelSize(R.dimen.toolbarSecondaryTextSize),
-                    getColorRes(R.color.subtitleSecondaryColor)
-                )
-            )
+    override fun hideResultLoading() {
+        activity_content_loading_progressbar.visibility = View.GONE
     }
 
 
@@ -237,5 +196,80 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
 
     override fun setPresenter(presenter: ItinerariesContract.Presenter) {
         itineratesPresenter = presenter as ItinerariesPresenter
+    }
+
+    private fun setupRecyclerView() {
+        activity_itineraries_recycler_view.addItemDecoration(
+            MarginItemDecoration(getDimens(R.dimen.spacings_eight))
+        )
+
+        setupLocaleAndCurrency()
+
+        val linearLayoutManager = LinearLayoutManager(this)
+        activity_itineraries_recycler_view.layoutManager = linearLayoutManager
+
+        adapter.click = this
+        activity_itineraries_recycler_view.adapter = adapter
+        scrollListener = object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                searchRequestForm?.pageIndex = page
+                itineratesPresenter.search(searchRequestForm)
+            }
+
+        }
+        activity_itineraries_recycler_view.addOnScrollListener(scrollListener)
+    }
+
+    private fun setupLocaleAndCurrency() {
+        searchRequestForm?.let {
+
+            val locale = it.locale.split("-")
+            val lang = locale[0]
+            var country = ""
+
+            if (locale.size > 1) {
+                locale[1]
+            }
+
+            adapter.locale = Locale(lang, country)
+            adapter.currency = Currency.getInstance(it.currency)
+        }
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(activity_itineraries_toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val titleToolbar = "${searchRequestForm?.originPlace} - ${searchRequestForm?.destinationPlace}"
+
+        val inboundDate = searchRequestForm?.inbounddate?.parseIsoDateFormat()?.formatToDayMonthName()
+        val outboundDate = searchRequestForm?.outbounddate?.parseIsoDateFormat()?.formatToDayMonthName()
+
+        var adults = getQuantityString(R.plurals.adults, searchRequestForm?.adults ?: 0)
+        val cabineClass = searchRequestForm?.cabinClass
+
+        val subtitleToolbar = "$outboundDate - $inboundDate"
+
+        activity_itineraries_text_view_query_info.text =
+            TextUtils.concat(
+                titleToolbar.primaryTextBold(
+                    getDimensPixelSize(R.dimen.toolbarPrimaryTextSize),
+                    getColorRes(android.R.color.white)
+                ), "\n",
+                subtitleToolbar.secondaryText(
+                    getDimensPixelSize(R.dimen.toolbarSecondaryTextSize),
+                    getColorRes(R.color.subtitleSecondaryColor)
+                )
+            )
+    }
+
+    private fun setupSortFilterBar(){
+        if(adapter.items.isNotEmpty()) {
+            activity_itineraries_results_filters_bar.visibility = View.VISIBLE
+            activity_itineraries_text_view_count_pages_results.text = "${adapter.items.size} results"
+        }else{
+            activity_itineraries_results_filters_bar.visibility = View.GONE
+        }
     }
 }

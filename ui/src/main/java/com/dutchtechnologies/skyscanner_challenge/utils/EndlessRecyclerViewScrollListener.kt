@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
     // before loading more.
     private var visibleThreshold = 10
     // The current offset index of data you have loaded
-    private var currentPage = 0
+    private var currentPage = 1
     // The total number of items in the dataset after the last load
     private var previousTotalItemCount = 0
     // True if we are still waiting for the last set of data to load.
     private var loading = true
     // Sets the starting page index
-    private val startingPageIndex = 0
+    private val startingPageIndex = 1
 
     internal var mLayoutManager: RecyclerView.LayoutManager
 

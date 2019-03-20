@@ -26,7 +26,8 @@ open class SearchRequestMapper @Inject constructor() : Mapper<SearchRequestForm?
                 inbounddate = type.inbounddate,
                 adults = type.adults,
                 children = type.children,
-                infants = type.infants
+                infants = type.infants,
+                pageIndex = type.pageIndex
             )
         }
 

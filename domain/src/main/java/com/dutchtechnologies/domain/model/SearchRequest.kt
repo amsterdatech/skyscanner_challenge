@@ -13,5 +13,6 @@ data class SearchRequest(
     val inbounddate: String = "",
     val adults: Int = 0,
     val children: Int = 0,
-    val infants: Int = 0
+    val infants: Int = 0,
+    var pageIndex:Int = 1
 )

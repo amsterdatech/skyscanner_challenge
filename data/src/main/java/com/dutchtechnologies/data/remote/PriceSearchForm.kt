@@ -15,7 +15,8 @@ data class PriceSearchForm(
     var inbounddate: String,
     var adults: Int,
     var children: Int,
-    var infants: Int
+    var infants: Int,
+    var pageIndex:Int
 )
 
 

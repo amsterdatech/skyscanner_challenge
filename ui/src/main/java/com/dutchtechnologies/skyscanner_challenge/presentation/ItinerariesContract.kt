@@ -7,7 +7,7 @@ import com.dutchtechnologies.skyscanner_challenge.model.SearchRequestForm
 interface ItinerariesContract {
 
     interface View : BaseView<Presenter> {
-        fun showResults(itinerarios: List<Itinerary>)
+        fun showResults(results: List<Itinerary>)
     }
 
 

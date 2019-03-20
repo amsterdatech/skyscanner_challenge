@@ -12,7 +12,7 @@ interface SkyscannerService {
         @Path("sessionId") sessionId: String,
         @Query("apiKey") apiKey: String,
         @Query("pageIndex") pageIndex: Int = 0,
-        @Query("pageSize") pageSize: Int = 20
+        @Query("pageSize") pageSize: Int = 100
     ): Single<LivePricesResponse>
 
     @POST("pricing/v1.0")

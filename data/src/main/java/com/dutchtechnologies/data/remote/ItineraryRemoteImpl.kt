@@ -34,8 +34,9 @@ class ItineraryRemoteImpl @Inject constructor(
 
                 return@flatMap service
                     .getLivePrices(
-                        sessionId,
-                        priceSearchForm.apiKey
+                        sessionId = sessionId,
+                        apiKey = priceSearchForm.apiKey,
+                        pageIndex = priceSearchForm.pageIndex
                     )
                     .map {
                         entityMapper.mapFromRemote(it)

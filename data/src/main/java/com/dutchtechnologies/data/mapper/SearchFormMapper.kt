@@ -39,7 +39,8 @@ open class SearchFormMapper @Inject constructor() : Mapper<PriceSearchForm, Sear
             type.inbounddate,
             type.adults,
             type.children,
-            type.infants
+            type.infants,
+            type.pageIndex
         )
     }
 

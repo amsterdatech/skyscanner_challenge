@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dutchtechnologies.skyscanner_challenge.BuildConfig
 import com.dutchtechnologies.skyscanner_challenge.R
 import com.dutchtechnologies.skyscanner_challenge.model.Itinerary
@@ -130,9 +131,8 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
 
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putParcelable(SEARCH_REQUEST_FORM, searchRequestForm)
-        if (adapter.items.isNotEmpty() && adapter.items.size <= 12) {
-            val firstPage = adapter.items.subList(0, adapter.items.size)
-            outState?.putParcelableArrayList(SEARCH_RESULTS, firstPage as ArrayList)
+        if (adapter.items.isNotEmpty()) {
+            outState?.putParcelableArrayList(SEARCH_RESULTS, adapter.items.take(20) as ArrayList)
         }
         super.onSaveInstanceState(outState)
     }
@@ -141,7 +141,9 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
         activity_itineraries_recycler_view.addItemDecoration(
             MarginItemDecoration(getDimens(R.dimen.spacings_eight))
         )
-        activity_itineraries_recycler_view.layoutManager = LinearLayoutManager(this)
+
+        val linearLayoutManager = LinearLayoutManager(this)
+        activity_itineraries_recycler_view.layoutManager = linearLayoutManager
 
         adapter.click = this
 
@@ -159,6 +161,13 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
             adapter.currency = Currency.getInstance(it.currency)
         }
         activity_itineraries_recycler_view.adapter = adapter
+        activity_itineraries_recycler_view.addOnScrollListener(object: EndlessRecyclerViewScrollListener(linearLayoutManager){
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                searchRequestForm?.pageIndex = page
+                itineratesPresenter.search(searchRequestForm)
+            }
+
+        })
     }
 
     private fun setupToolbar() {
@@ -199,11 +208,13 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
     }
 
     override fun showResults(results: List<Itinerary>) {
+        adapter.items += results
+
         activity_itineraries_recycler_view.visibility = View.VISIBLE
         activity_itineraries_results_filters_bar.visibility = View.VISIBLE
-        activity_itineraries_text_view_count_pages_results.text = "${results.size} results"
+        activity_itineraries_text_view_count_pages_results.text = "${adapter.items.size} results"
 
-        adapter.items = results
+
     }
 
     override fun hideResults() {

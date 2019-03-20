@@ -58,8 +58,7 @@
                 android:layout_width="match_parent"
                 android:id="@+id/activity_itineraries_results_filters_bar"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/white"
-                android:visibility="gone">
+                android:background="@android:color/white">
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/activity_itineraries_text_view_count_pages_results"

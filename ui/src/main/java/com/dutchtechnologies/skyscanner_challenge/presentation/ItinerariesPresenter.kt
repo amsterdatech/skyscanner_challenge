@@ -33,6 +33,10 @@ class ItinerariesPresenter @Inject constructor(
 
     override fun search(searchRequest: SearchRequestForm?) {
         view.showProgress()
+//        view.hideErrorState()
+//        view.hideEmptyState()
+//        view.hideResults()
+
         getItinerariesUseCase
             .execute(
                 ItinerarySubscriber(), mapper.mapFromView(searchRequest)
@@ -40,7 +44,8 @@ class ItinerariesPresenter @Inject constructor(
     }
 
     internal fun handleSuccess(results: List<Itinerary>) {
-        view.hideErrorState()
+//        view.hideErrorState()
+//        view.hideEmptyState()
         view.hideProgress()
 
         if (results.isNotEmpty()) {

@@ -8,10 +8,15 @@ import retrofit2.http.Query
 interface SkyscannerService {
 
     @GET("pricing/uk1/v1.0/{sessionId}")
-    fun getLivePrices(@Path("sessionId") sessionId:String, @Query("apiKey")apiKey:String): Single<LivePricesResponse>
+    fun getLivePrices(
+        @Path("sessionId") sessionId: String,
+        @Query("apiKey") apiKey: String,
+        @Query("pageIndex") pageIndex: Int = 0,
+        @Query("pageSize") pageSize: Int = 20
+    ): Single<LivePricesResponse>
 
     @POST("pricing/v1.0")
     @FormUrlEncoded
-    fun createSession(@FieldMap(encoded = true) params:Map<String,String>):Single<Response<Any>>
+    fun createSession(@FieldMap(encoded = true) params: Map<String, String>): Single<Response<Any>>
 
 }

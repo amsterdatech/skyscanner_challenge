@@ -63,7 +63,7 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
                 searchRequestForm = it.getParcelable(SEARCH_REQUEST_FORM)
             }
 
-            if(it.containsKey(SEARCH_RESULTS)){
+            if (it.containsKey(SEARCH_RESULTS)) {
                 adapter.items = it.getParcelableArrayList(SEARCH_RESULTS)
             }
         } ?: run {
@@ -82,7 +82,7 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
         itineratesPresenter.attachView(this)
         itineratesPresenter.start()
 
-        if(adapter.items == null || adapter.items.isEmpty()) {
+        if (adapter.items == null || adapter.items.isEmpty()) {
             itineratesPresenter.search(searchRequestForm)
         }
 
@@ -114,7 +114,10 @@ class SearchResultsActivity : DaggerAppCompatActivity(), ItinerariesContract.Vie
 
     override fun onSaveInstanceState(outState: Bundle?) {
         outState?.putParcelable(SEARCH_REQUEST_FORM, searchRequestForm)
-        outState?.putParcelableArrayList(SEARCH_RESULTS,adapter.items as ArrayList)
+        if (adapter.items.isNotEmpty() && adapter.items.size >= 12) {
+            val firstPage = adapter.items.subList(0, 12)
+            outState?.putParcelableArrayList(SEARCH_RESULTS, firstPage as ArrayList)
+        }
         super.onSaveInstanceState(outState)
     }
 
